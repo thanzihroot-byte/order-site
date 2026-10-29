@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+/*
+ * The Grand Stay design tokens — derived from the Stitch design system
+ * (grand_stay_hospitality/DESIGN.md): warm linen canvas, racing-green primary,
+ * burnished gold accents, Playfair Display headings, Plus Jakarta Sans body.
+ */
+@theme {
+  --font-display: var(--font-playfair), "Playfair Display", Georgia, serif;
+  --font-sans: var(--font-jakarta), "Plus Jakarta Sans", system-ui, sans-serif;
+
+  /* Neutral foundation */
+  --color-linen: #fdfbf7;          /* base canvas */
+  --color-cream: #f7f4ec;          /* subdued panels */
+  --color-card: #ffffff;           /* card surface */
+  --color-hairline: #e8e4da;       /* borders */
+
+  /* Brand */
+  --color-forest: #1a382b;         /* primary green */
+  --color-forest-deep: #12281e;    /* press state / high-emphasis */
+  --color-forest-soft: #2f4d3f;    /* lifted green */
+  --color-sage: #81a291;           /* on-primary-container */
+  --color-gold: #c5a059;           /* burnished gold */
+  --color-champagne: #d4af37;
+  --color-bordeaux: #8c2828;       /* non-veg / warnings */
+  --color-eligreen: #1e7f47;       /* veg */
+
+  /* Text */
+  --color-ink: #1b1c1a;
+  --color-muted: #424844;
+  --color-steel: #727974;
+
+  /* Elevation — soft ambient diffusion, no harsh shadows */
+  --shadow-card:
+    0 2px 8px -2px rgb(26 56 43 / 0.04),
+    0 1px 3px 0 rgb(26 56 43 / 0.02);
+  --shadow-card-hover:
+    0 12px 24px -6px rgb(26 56 43 / 0.08),
+    0 4px 8px -2px rgb(26 56 43 / 0.03);
+  --shadow-tray:
+    0 -8px 32px 0 rgb(18 40 30 / 0.08);
+  --shadow-popper:
+    0 24px 48px -12px rgb(18 40 30 / 0.18);
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+body {
+  background: var(--color-linen);
+  color: var(--color-ink);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/* Card hover elevation per DESIGN.md (Ambient Elevation 2). */
+.dish-card {
+  box-shadow: var(--shadow-card);
+  transition:
+    box-shadow 300ms ease,
+    border-color 300ms ease,
+    transform 300ms ease;
+}
+.dish-card:hover {
+  box-shadow: var(--shadow-card-hover);
+  border-color: rgb(197 160 89 / 0.3);
+}
+.dish-card:hover .dish-photo {
+  transform: scale(1.05);
+}
