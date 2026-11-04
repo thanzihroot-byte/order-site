@@ -32,6 +32,9 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# Intentionally committed: the deployment needs these values and this repo is
+# deployed straight to Vercel, which does not read the developer's machine.
+!.env.local
 
 # vercel
 .vercel
