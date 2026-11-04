@@ -15,6 +15,7 @@
  * part of request payloads.
  */
 
+import { serverEnv } from "./env";
 import {
   AppsScriptFailure,
   OrderRecord,
@@ -22,8 +23,6 @@ import {
   RawOrder,
   RawProduct,
 } from "./types";
-
-const APPS_SCRIPT_URL = process.env.GOOGLE_APPS_SCRIPT_URL ?? "";
 
 const REQUEST_TIMEOUT_MS = 25_000;
 
@@ -39,13 +38,16 @@ export class AppsScriptError extends Error {
 }
 
 function requireUrl(): string {
-  if (!APPS_SCRIPT_URL) {
+  // Read at call time (not module load) so the same build works locally and
+  // on Vercel, where variables are injected into the running function.
+  const url = serverEnv("GOOGLE_APPS_SCRIPT_URL");
+  if (!url) {
     throw new AppsScriptError(
       "Server is not configured: GOOGLE_APPS_SCRIPT_URL is missing in the environment.",
       500,
     );
   }
-  return APPS_SCRIPT_URL;
+  return url;
 }
 
 /** Parse a script response, raising helpful errors for HTML / malformed JSON. */
@@ -155,7 +157,7 @@ export async function createProduct(payload: {
   imageURL: string;
   stock: number;
 }): Promise<{ message: string; raw: unknown }> {
-  const token = process.env.GOOGLE_APPS_SCRIPT_ADMIN_TOKEN ?? "";
+  const token = serverEnv("GOOGLE_APPS_SCRIPT_ADMIN_TOKEN");
   if (!token) {
     throw new AppsScriptError(
       "Server is not configured: GOOGLE_APPS_SCRIPT_ADMIN_TOKEN is missing.",

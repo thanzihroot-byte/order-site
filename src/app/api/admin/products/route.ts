@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { AppsScriptError, createProduct } from "@/lib/apps-script";
+import { serverEnv } from "@/lib/env";
 
 /**
  * POST /api/admin/products — protected product-creation route.
@@ -21,7 +22,7 @@ function normalizeProductId(raw: string): string {
 
 export async function POST(request: NextRequest) {
   // ── 1. Passcode gate ──────────────────────────────────────────────────────────
-  const expectedPasscode = process.env.ADMIN_UI_PASSCODE ?? "";
+  const expectedPasscode = serverEnv("ADMIN_UI_PASSCODE");
   if (!expectedPasscode) {
     return NextResponse.json(
       {
